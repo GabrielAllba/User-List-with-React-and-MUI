@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Footer from "./components/Footer";
 import { Card } from "@mui/material";
 import Container from "@mui/material/Container";
-
+import Wrapper from "./components/Helpers/Wrapper";
 const Data = [];
 
 export default function App() {
@@ -38,24 +38,20 @@ export default function App() {
   console.log(dataUser);
 
   return (
-    <React.Fragment>
-      <Container maxWidth="md" sx={{mt: 2}} >
-        <Card variant="outlined" sx={{pb: 2}}>
-          {error === true ? (
-            <Error
-              onCloseHandle={changeClose}
-              message="You must enter your name and age!"
-            ></Error>
-          ) : (
-            ""
-          )}
-          <CssBaseline />
-          <Header></Header>
-          <Form onChangeError={changeError} onSaveData={saveData}></Form>
-          <UserList user={dataUser}></UserList>
-          <Footer></Footer>
-        </Card>
-      </Container>
-    </React.Fragment>
+    
+      <>
+        <Container maxWidth="md" sx={{ mt: 2 }}>
+          <Card variant="outlined" sx={{ pb: 2 }}>
+            {error && <Error onCloseHandle={changeClose} message="You must enter your name and age!"></Error>}
+            
+            <CssBaseline />
+            <Header></Header>
+            <Form onChangeError={changeError} onSaveData={saveData}></Form>
+            <UserList user={dataUser}></UserList>
+            <Footer></Footer>
+          </Card>
+        </Container>
+      </>
+    
   );
 }

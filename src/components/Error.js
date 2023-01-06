@@ -11,6 +11,11 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { useState } from "react";
 
+const Backdrop = props => {
+  
+}
+
+
 export default function Error(props) {
     const [open, setOpen] = useState(true);
 const closeHandle = () => {

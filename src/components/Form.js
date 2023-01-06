@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Container from "@mui/material/Container";
 
 import Box from "@mui/material/Box";
@@ -13,10 +13,11 @@ import uuid from "react-uuid";
 
 
 export default function Form(props) {
-    const [userInput, setUserInput] = useState({
-        enteredName: '',
-        enteredAge: ''
-    })
+  const ageInputRef = useRef()
+
+  const [userInput, setUserInput] = useState({
+      enteredName: ''
+  })
 
 
     const nameChangeHandler = (event) => {
@@ -26,43 +27,41 @@ export default function Form(props) {
             }
         })
     }
-    const ageChangeHandler = (event) => {
-        setUserInput((prevState) => {
-            return{
-                ...prevState, enteredAge: event.target.value
-            }
-        })
-        console.log(userInput.enteredAge)
-    }
+    
 
     const handleSubmit = (event) => {
+        
         event.preventDefault()
-        if(userInput.enteredAge=='' || userInput.enteredName==''){
+
+      const age = ageInputRef.current.value;
+      console.log("age" + age);
+
+        if(ageInputRef==null || userInput.enteredName==''){
             props.onChangeError(true)
         }else{
             const data = {
-            id: uuid(),
-            name: userInput.enteredName,
-            age: parseFloat(userInput.enteredAge),
+              id: uuid(),
+              name: userInput.enteredName,
+              age: parseFloat(age),
             };
 
             props.onSaveData(data);
 
             setUserInput({
-            enteredAge: "",
-            enteredName: "",
+              enteredName: "",
             });
+
+            
         }
         
     }
 
   return (
     <div>
-
       <Container maxWidth="sm">
         <Box sx={{ minWidth: 275, mt: 2 }}>
           <Card variant="outlined">
-            <React.Fragment>
+            <form onSubmit={handleSubmit}>
               <CardContent>
                 <Box
                   component="form"
@@ -87,18 +86,18 @@ export default function Form(props) {
                       type="number"
                       required
                       variant="standard"
-                      onChange={ageChangeHandler}
-                      value={userInput.enteredAge}
+                      inputRef={ageInputRef}
                     />
+                    
                   </div>
                 </Box>
               </CardContent>
               <CardActions>
-                <Button size="small" type="submit" onClick={handleSubmit}>
+                <Button size="small" type="submit">
                   Submit
                 </Button>
               </CardActions>
-            </React.Fragment>
+            </form>
           </Card>
         </Box>
       </Container>
